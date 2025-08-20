@@ -1,106 +1,96 @@
-Fullstack Todo - Backend
+# To-do App Backend
 
-Este é o backend do projeto Fullstack Todo List, desenvolvido com foco em boas práticas, SOLID e design patterns para garantir escalabilidade e manutenção a longo prazo.
+Este é o backend da aplicação de lista de tarefas. Ele gerencia as operações do banco de dados e a lógica de negócios, servindo uma API RESTful para o frontend.
 
-O sistema expõe uma API REST para gerenciamento de tarefas (CRUD), conectada a um banco de dados PostgreSQL hospedado no Supabase e deployada no Render.
+## Tecnologias
 
-Tecnologias Utilizadas
+* **Node.js**: Ambiente de execução JavaScript.
+* **Express**: Framework web para construir a API.
+* **Prisma ORM**: ORM (Object-Relational Mapper) para interagir com o banco de dados.
+* **Supabase**: Backend-as-a-Service utilizado para hospedagem do banco de dados PostgreSQL.
+* **SQLite (apenas em desenvolvimento)**: Banco de dados leve para uso local.
+* **DDD (Domain-Driven Design)**: Boas práticas para modelar a lógica de negócios.
+* **Design Pattern MVC (Model-View-Controller)**: Arquitetura utilizada para organizar o código.
+* **SOLID**: Princípios de design de software para escrita de código limpo e coeso.
 
-Node.js + TypeScript → robustez e tipagem estática
+## Como Rodar o Backend
 
-Express.js → framework web minimalista
+Siga estas instruções para configurar e rodar o projeto em sua máquina local.
 
-Prisma ORM → abstração e segurança no acesso ao banco de dados
+### 1. Pré-requisitos
 
-Supabase (PostgreSQL) → banco de dados gerenciado
+Certifique-se de ter o [Node.js](https://nodejs.org/) e o [npm](https://www.npmjs.com/) instalados em sua máquina.
 
-Dotenv → gerenciamento de variáveis de ambiente
+### 2. Configuração do Ambiente
 
-Cors → configuração de segurança e comunicação entre front/back
+1.  Clone este repositório:
+    ```bash
+    git clone [https://github.com/seu-usuario/seu-repositorio.git](https://github.com/seu-usuario/seu-repositorio.git)
+    cd seu-repositorio
+    ```
 
-Render → deploy contínuo do backend
+2.  Instale as dependências:
+    ```bash
+    npm install
+    ```
 
-Arquitetura & Boas Práticas
+3.  Crie um arquivo `.env` na raiz do projeto e configure as variáveis de ambiente. Você pode usar o arquivo `.env.example` como modelo.
 
-SOLID Principles → código desacoplado, de fácil extensão e manutenção
+    **Exemplo de `.env` (para rodar com Supabase)**:
+    ```env
+    # URL de conexão do Supabase (use a porta 6543 para o pooler)
+    DATABASE_URL="postgresql://[user]:[password]@[host]:6543/[database]"
+    ```
+    *Substitua as informações com as credenciais do seu projeto no Supabase.*
 
-Repository Pattern → separação clara entre regras de negócio e persistência
+    ---
+    **Exemplo de `.env` (para rodar localmente com SQLite):**
+    ```env
+    DATABASE_URL="file:./dev.db"
+    ```
+    *Neste caso, não é necessário se conectar ao Supabase, pois o banco de dados será um arquivo local.*
+    ---
 
-Services Layer → lógica de negócio isolada das rotas
+4.  Configure e aplique as migrações do banco de dados (se você não tiver um banco de dados com a estrutura correta):
+    ```bash
+    npx prisma migrate dev
+    ```
 
-Separation of Concerns → controllers cuidam da orquestração, services da regra, repos da persistência
+### 3. Execução
 
-Environment Configuration → uso de .env para dados sensíveis (como DATABASE_URL)
+Para iniciar o servidor em modo de desenvolvimento:
 
-REST API Design → endpoints claros, previsíveis e versionáveis
-
-Estrutura do Projeto
-src/
- ├── controllers/     # Controladores responsáveis por orquestrar requests/responses
- ├── routes/          # Definição das rotas da API
- ├── services/        # Camada de regras de negócio
- ├── repositories/    # Camada de persistência de dados (Prisma ORM)
- ├── prisma/          # Schema do banco de dados
- ├── index.ts         # Ponto de entrada da aplicação
-
-Endpoints
-Método	Rota	Descrição
-GET	/tasks	Lista todas as tarefas
-POST	/tasks	Cria uma nova tarefa
-PUT	/tasks/:id	Atualiza uma tarefa pelo ID
-DELETE	/tasks/:id	Remove uma tarefa pelo ID
-Como Rodar Localmente
-
-Clone o repositório
-
-git clone https://github.com/YanPedro18/fullstack-todo-backend-node-supabase.git
-cd fullstack-todo-backend-node-supabase
-
-
-Instale as dependências
-
-npm install
-
-
-Configure o .env
-Crie um arquivo .env na raiz do projeto:
-
-DATABASE_URL="sua-string-do-supabase"
-CORS_ORIGIN="http://localhost:5173"
-PORT=3001
-
-
-Execute as migrações do Prisma
-
-npx prisma migrate dev
-
-
-Rode a API
 
 npm run dev
+O servidor estará rodando em http://localhost:3000 por padrão.
 
+4. Endpoints da API
+GET /api/tasks: Retorna todas as tarefas.
 
-Ou:
+POST /api/tasks: Cria uma nova tarefa.
 
-npx tsx src/index.ts
+PUT /api/tasks/:id: Atualiza uma tarefa existente.
 
-Deploy
+DELETE /api/tasks/:id: Deleta uma tarefa.
 
-O backend está hospedado no Render e conectado ao Supabase.
+Sobre a Arquitetura
+Este projeto foi desenvolvido seguindo as boas práticas de DDD (Domain-Driven Design) para a organização da lógica de negócios, o padrão MVC (Model-View-Controller) para estruturar o código de forma modular e os princípios SOLID para a escrita de código limpo e coeso.
 
-API pública:
-https://fullstack-todo-backend-node-supabase.onrender.com
+Model: Define a estrutura dos dados e a lógica de interação com o banco de dados (gerenciado pelo Prisma).
 
-Próximos Passos
+Controller: Recebe as requisições HTTP, coordena a lógica de negócios e envia a resposta.
 
-Backend funcional
+View: Não se aplica diretamente a este backend, pois ele serve apenas a API. A "view" é o frontend (React) que consome esta API.
 
-Deploy no Render
+SOLID:
 
-Conexão com Supabase
+Single Responsibility Principle (SRP): Cada classe ou módulo tem apenas uma responsabilidade clara.
 
-Testes unitários e integração
+Open/Closed Principle (OCP): As entidades de software são abertas para extensão, mas fechadas para modificação.
 
-CI/CD com GitHub Actions
+Liskov Substitution Principle (LSP): Os subtipos devem ser substituíveis pelos seus tipos base.
 
-Desenvolvido por Yan Pedro seguindo boas práticas de desenvolvimento backend.
+Interface Segregation Principle (ISP): Clientes não devem ser forçados a depender de interfaces que não utilizam.
+
+Dependency Inversion Principle (DIP): Módulos de alto nível não devem depender de módulos de baixo nível. Ambos devem depender de abstrações.
+
