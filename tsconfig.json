@@ -1,7 +1,7 @@
 {
   "compilerOptions": {
     // Layout
-    "rootDir": "./src",
+    "rootDir": ".",
     "outDir": "./dist",
 
     // Module & Target

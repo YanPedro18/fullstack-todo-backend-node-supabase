@@ -1,7 +1,6 @@
 import { PrismaClient } from "@prisma/client";
 import type { Task } from "@prisma/client";
-
-const prisma = new PrismaClient();
+import prisma from "../../prisma/prismaClient.js"; // se o service está em src/services/
 
 const validStatuses = ["a fazer", "em andamento", "concluído"] as const;
 const validPriorities = ["baixa", "média", "alta"] as const;
